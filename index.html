@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>In Falsus B30/B50 生成器</title>
+    <meta
+      name="description"
+      content="读取 In Falsus 本地存档，生成游戏内风格的 B30/B50 成绩图。存档不会离开你的浏览器。"
+    />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div class="aurora" aria-hidden="true">
+      <span class="aurora-blob aurora-a"></span>
+      <span class="aurora-blob aurora-b"></span>
+      <span class="aurora-blob aurora-c"></span>
+      <span class="aurora-grid"></span>
+    </div>
+
+    <div class="page">
+      <header class="site-header">
+        <a class="brand" href="./">
+          <span class="brand-mark">IF</span>
+          <span class="brand-text">
+            <strong>In Falsus</strong>
+            <em>Best 50 Studio</em>
+          </span>
+        </a>
+        <p class="site-note">本地解析 · 不上传存档</p>
+      </header>
+
+      <main>
+        <section class="intake" id="intake">
+          <div class="intake-copy">
+            <h1>In Falsus B30/B50<em>生成器</em></h1>
+
+            <figure class="sample">
+              <img src="./assets/preview.webp" alt="示例成绩图" width="1100" height="1134" loading="lazy" />
+            </figure>
+          </div>
+
+          <div class="intake-side">
+            <div class="drop-zone" id="drop-zone" role="button" tabindex="0" aria-label="选择或拖入存档文件">
+              <svg class="drop-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <path d="M24 10v20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+                <path d="M16 22l8 8 8-8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12 36h24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+              </svg>
+              <p class="drop-title">拖入 <code>savestate_V3.sav</code></p>
+              <p class="drop-hint">或</p>
+              <button class="button button-primary" id="browse-button" type="button">选择存档文件</button>
+              <button class="button button-quiet" id="demo-button" type="button">先看示例效果</button>
+            </div>
+
+            <div class="path-hint">
+              <div class="path-row">
+                <span class="path-label">存档目录</span>
+                <code class="path-value" id="save-directory"
+                  >%USERPROFILE%\AppData\LocalLow\lowiro\infalsus</code
+                >
+                <button class="icon-button" id="copy-directory" type="button" title="复制目录路径">复制</button>
+              </div>
+              <div class="path-row">
+                <span class="path-label">文件名</span>
+                <code class="path-value" id="save-filename">savestate_V3.sav</code>
+              </div>
+            </div>
+
+            <ol class="steps">
+              <li><span>1</span>复制上面的存档目录，按 <kbd>Win</kbd> + <kbd>R</kbd> 粘贴并回车。</li>
+              <li><span>2</span>进入以 SteamID64 命名的文件夹，再打开 <code>release</code>。</li>
+              <li><span>3</span>把 <code>savestate_V3.sav</code> 拖进上传方框。</li>
+            </ol>
+
+            <p class="intake-status" id="intake-status" hidden></p>
+          </div>
+        </section>
+
+        <section class="workspace" id="workspace" hidden>
+          <div class="toolbar">
+            <div class="field">
+              <label id="best-mode-label">榜单</label>
+              <div class="segmented" id="best-mode" role="group" aria-labelledby="best-mode-label">
+                <button class="segmented-option active" type="button" data-size="30" aria-pressed="true">B30</button>
+                <button class="segmented-option" type="button" data-size="50" aria-pressed="false">B50</button>
+              </div>
+            </div>
+            <div class="field">
+              <label for="character-select">角色</label>
+              <select id="character-select">
+                <option value="ayame" selected>Ayame</option>
+                <option value="iris">Iris</option>
+                <option value="mei">Mei</option>
+                <option value="nia">Nia</option>
+                <option value="story">Story</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="player-name">玩家名</label>
+              <input id="player-name" type="text" maxlength="24" placeholder="留空则不显示" autocomplete="off" />
+            </div>
+            <div class="field">
+              <label for="export-scale">导出尺寸</label>
+              <select id="export-scale">
+                <option value="1">标准 · 2000 px</option>
+                <option value="1.5">高清 · 3000 px</option>
+              </select>
+            </div>
+            <div class="toolbar-actions">
+              <button class="button button-primary" id="download-png" type="button">下载 PNG</button>
+              <button class="button button-quiet" id="download-json" type="button">导出 JSON</button>
+              <button class="button button-quiet" id="reset" type="button">换一个存档</button>
+            </div>
+          </div>
+
+          <p class="status" id="status" role="status"></p>
+
+          <div class="preview" id="preview">
+            <canvas id="poster"></canvas>
+          </div>
+
+          <details class="diagnostics" id="diagnostics" hidden>
+            <summary id="diagnostics-summary">有成绩没匹配上曲目</summary>
+            <ul id="diagnostics-list"></ul>
+          </details>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

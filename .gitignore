@@ -1,0 +1,16 @@
+node_modules/
+dist/
+*.local
+.local/
+
+# Local-only working folders
+.screenshots/
+.trae-html-share-packages/
+
+# Raw unpacked game material (large, re-extractable from the game client).
+# The used subset lives in src/fonts and public/assets.
+assets/fonts/
+assets/gameResources/
+
+# Original card frames kept only as local build backups
+public/assets/card_bak/
